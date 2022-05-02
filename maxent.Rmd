@@ -1,0 +1,68 @@
+---
+title: "Untitled"
+author: "zjz"
+date: "`r Sys.Date()`"
+output: html_document
+---
+## 环境配置
+- R41-R 4.1.3
+- RStudio-daily
+- Installed Packages
+  - raster
+  - rgdal
+  - ggplot2
+  - dismo
+  - rJava
+  
+## 整体思路
+先对30多个变量进行相关性分析，再从中选取具有生态学意义的变量
+> 如果先从生态学意义上进行选取，再考虑相关性，那么势必会剔除掉部分具有生态学意义的变量。
+> 如先相关性分析，再考虑生态学意义，那么最终选取的变量则既相互独立、且具有生态学意义。剔除掉的线性相关的变量，哪怕与
+## correlation analysis
+
+```{r}
+# 设置工作文件夹
+setwd("D:/Data/GISData/Maxent/InputData/z1-ASCII100-aspect")
+# 设置文件路径
+dir<-"D://Data//GISData//Maxent//InputData//z1-ASCII100-aspect"
+# 获取文件列表
+files<-list.files(path=dir,pattern = "*.asc",full.names = TRUE,recursive = FALSE, ignore.case = FALSE)
+# 遍历文件列表并读取为rasterlayer
+alllayer<-lapply(files,function(x)raster(paste(x)))
+# 将rasterlayer 转为rasterstack
+layers<-stack(alllayer, bands=NULL, native=FALSE, RAT=TRUE)
+# 统计rasterstack的pearson系数
+p<-layerStats(layers, 'pearson',asSample=TRUE, na.rm=TRUE)
+
+
+```
+## chose varibles 
+```{r}
+# 生成好看的图
+
+
+
+```
+
+
+## maxent 
+
+
+```{r}
+
+
+
+```
+
+
+
+
+## parameters optimization
+
+
+```{r}
+
+```
+
+
+
