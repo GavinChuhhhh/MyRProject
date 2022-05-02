@@ -1,68 +1,86 @@
 ---
-title: "Untitled"
+title: "maxent"
 author: "zjz"
 date: "`r Sys.Date()`"
-output: html_document
+output: html_notebook
 ---
+
 ## 环境配置
-- R41-R 4.1.3
-- RStudio-daily
-- Installed Packages
-  - raster
-  - rgdal
-  - ggplot2
-  - dismo
-  - rJava
-  
-## 整体思路
-先对30多个变量进行相关性分析，再从中选取具有生态学意义的变量
-> 如果先从生态学意义上进行选取，再考虑相关性，那么势必会剔除掉部分具有生态学意义的变量。
-> 如先相关性分析，再考虑生态学意义，那么最终选取的变量则既相互独立、且具有生态学意义。剔除掉的线性相关的变量，哪怕与
-## correlation analysis
+
+-   R41=4-1-3
+
+-   RStudio-daily
+
+```{r message=FALSE, include=FALSE}
+library(raster) 
+library(sp) 
+library(rgdal) 
+library(rmarkdown) 
+```
+
+## Method
+
+先对30多个变量进行相关性分析，再从中选取具有生态学意义的变量。
+
+-   如果先从生态学意义上进行选取，再考虑相关性，那么势必会剔除掉部分具有生态学意义的变量。
+
+-   如先相关性分析，再考虑生态学意义，那么最终选取的变量则既相互独立、且具有生态学意义。
+
+## Correlation Analysis
+
+Pearson相关系数：对定距连续变量的数据进行计算。
+
+1.  如果x,y变化的方向一致，r\>0；
+
+    -   \|r\|\>0.95 存在显著性相关；
+
+    -   \|r\|≥0.8 高度相关；
+
+    -   0.5≤\|r\|\<0.8 中度相关；
+
+    -   0.3≤\|r\|\<0.5 低度相关；
+
+    -   \|r\|\<0.3 关系极弱，认为不相关；
+
+2.  负相关：y变化与x方向相反，\|r\|\<0；
+
+3.  如果x和y是函数关系，则\|r\|=1，否则-1\<r\<1，x和y为统计关系。
 
 ```{r}
-# 设置工作文件夹
-setwd("D:/Data/GISData/Maxent/InputData/z1-ASCII100-aspect")
+ 
 # 设置文件路径
-dir<-"D://Data//GISData//Maxent//InputData//z1-ASCII100-aspect"
-# 获取文件列表
-files<-list.files(path=dir,pattern = "*.asc",full.names = TRUE,recursive = FALSE, ignore.case = FALSE)
-# 遍历文件列表并读取为rasterlayer
-alllayer<-lapply(files,function(x)raster(paste(x)))
-# 将rasterlayer 转为rasterstack
-layers<-stack(alllayer, bands=NULL, native=FALSE, RAT=TRUE)
+dir = "D://Data//GISData//Maxent//InputData//z1"   
+
+files <- list.files(path=dir,pattern = "*.asc",full.names = TRUE,recursive = FALSE, ignore.case = FALSE)  
+
+# 遍历文件列表并读取为rasterlayer  
+
+alllayer <- lapply(files,function(x)raster(paste(x)))  
+
+# 将rasterlayer 转为rasterstack  
+
+layers <- stack(alllayer, bands=NULL, native=FALSE, RAT=TRUE)
+
 # 统计rasterstack的pearson系数
-p<-layerStats(layers, 'pearson',asSample=TRUE, na.rm=TRUE)
 
+p <- layerStats(layers,'pearson',asSample=TRUE, na.rm=TRUE)
 
-```
-## chose varibles 
-```{r}
-# 生成好看的图
-
-
-
+print(p$`pearson correlation coefficient`) 
 ```
 
-
-## maxent 
-
+## Chose varibles
 
 ```{r}
-
-
-
-```
-
-
-
-
-## parameters optimization
-
-
-```{r}
+# todo 
+  
 
 ```
 
+## Maxent
 
+```{}
+# todo 
 
+```
+
+## Parameters Optimization
